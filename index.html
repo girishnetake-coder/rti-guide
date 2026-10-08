@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTI मार्गदर्शक</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:sans-serif;background:linear-gradient(135deg,#1a5490 0%,#0d3b66 100%);min-height:100vh;color:#333;line-height:1.6;padding-bottom:30px}
+.header{text-align:center;color:white;padding:22px 15px 12px}
+.header h1{font-size:24px;margin-bottom:4px}
+.header p{font-size:12px;opacity:.9}
+.content{padding:15px;max-width:700px;margin:0 auto 30px}
+.card{background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.card h3{font-size:15px;color:#1a5490;margin-bottom:12px}
+.sr{display:flex;gap:8px}
+.sr input{flex:1;padding:14px;border:2px solid #1a5490;border-radius:10px;font-size:15px;background:#f0f7ff;font-family:sans-serif}
+.sr input:focus{outline:none;border-color:#0d3b66;background:white}
+.mic{width:52px;background:#c9a227;color:white;border:none;border-radius:50%;font-size:22px;cursor:pointer}
+.sbtn{display:block;width:100%;padding:14px;margin-top:10px;background:#1a5490;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;font-family:sans-serif}
+.qq{display:block;width:100%;padding:11px 14px;margin-bottom:8px;background:#f8f9fb;border:2px solid #e2e8f0;border-radius:10px;font-size:13px;text-align:left;cursor:pointer;font-family:sans-serif;color:#333}
+.ans{background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none}
+.ans.show{display:block}
+.ans h3{color:#1a5490;font-size:16px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
+.atxt{font-size:15px;color:#333;line-height:1.8;white-space:pre-wrap}
+.aact{display:flex;gap:8px;margin-top:14px}
+.aact button{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:bold;cursor:pointer;font-family:sans-serif}
+.spk{background:#27ae60;color:white}
+.gem{background:#4285f4;color:white}
+.foot{text-align:center;font-size:11px;color:#ccc;padding:20px 10px}
+.apply-card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.15);text-align:center}
+.apply-btn{display:block;width:100%;padding:22px;background:linear-gradient(135deg,#1a5490 0%,#0d3b66 100%);color:white;border:none;border-radius:14px;font-size:20px;font-weight:bold;cursor:pointer;font-family:sans-serif}
+.apply-menu{background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none}
+.type-btn{display:block;width:100%;padding:16px;margin-bottom:10px;background:#f8f9fb;border:2px solid #e2e8f0;border-radius:12px;text-align:left;cursor:pointer;font-family:sans-serif}
+.type-btn b{font-size:16px;color:#1a5490;display:block;margin-bottom:4px}
+.type-btn span{font-size:12px;color:#666}
+.topbar{background:linear-gradient(135deg,#1a5490 0%,#0d3b66 100%);color:white;padding:12px 15px;display:none;align-items:center;position:sticky;top:0;z-index:50}
+.topbar.show{display:flex}
+.topbar button{background:rgba(255,255,255,.2);border:none;color:white;font-size:20px;width:38px;height:38px;border-radius:50%;margin-right:10px;cursor:pointer}
+.topbar h2{font-size:15px;flex:1}
+.paper{background:white;margin:12px;padding:20px 18px;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.15);font-family:'Times New Roman',serif;font-size:15px;line-height:2;color:#222;display:none}
+.paper.show{display:block}
+.paper-heading{text-align:center;font-size:16px;font-weight:bold;color:#0d3b66;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #0d3b66}
+.paper p{margin:12px 0;line-height:2.2}
+.inp{display:inline-block;border:1.5px dashed #1a5490;background:#f0f7ff;color:#0d3b66;font-weight:bold;padding:6px 10px;font-size:15px;font-family:sans-serif;min-width:180px;max-width:100%;border-radius:6px}
+.inp::placeholder{color:#5a7fb0;font-style:italic;font-weight:normal;opacity:1;font-size:14px}
+.inp:focus{outline:none;border:2px solid #c9a227;background:#fff3cd}
+.inp.filled{color:#27ae60;border:1.5px solid #27ae60;background:#e8f8ee;font-weight:bold}
+.inp::placeholder{color:#7a9cc6;font-style:italic;font-weight:normal;opacity:1}
+.inp:focus{outline:none;border:2px solid #c9a227;background:#fff3cd}
+.inp.filled{color:#27ae60;border:1.5px solid #27ae60;background:#e8f8ee;font-weight:bold}
+.inp:focus{outline:none;border-bottom:2px solid #c9a227;background:#fff3cd}
+.inp.filled{color:#27ae60;border-bottom:1.5px solid #27ae60;background:#e8f8ee}
+.tex{display:block;width:100%;min-height:55px;border:1.5px dashed #1a5490;background:#f0f7ff;color:#0d3b66;font-weight:bold;padding:8px;font-size:15px;font-family:sans-serif;border-radius:6px;margin:6px 0;resize:vertical}
+.tex::placeholder{color:#5a7fb0;font-style:italic;font-weight:normal;opacity:1;font-size:14px}
+.tex::placeholder{color:#7a9cc6;font-style:italic;font-weight:normal;opacity:1}
+.tex:focus{outline:none;border:2px solid #c9a227;background:#fff3cd}
+.tex.filled{color:#222;border:1.5px solid #27ae60;background:#e8f8ee;font-weight:normal}
+.q-list{list-style:none;padding:0;margin:10px 0}
+.q-list li{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;padding:8px;background:#e8f8ee;border-left:3px solid #27ae60;border-radius:6px;color:#222;font-size:14px;font-family:sans-serif}
+.q-list li .q-num{font-weight:bold;color:#27ae60;min-width:20px}
+.q-list li .q-edit{background:#3498db;color:white;border:none;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;margin-left:auto}
+.q-input-row{display:flex;gap:8px;align-items:center;margin-top:8px;padding:8px;background:#f0f7ff;border:2px dashed #1a5490;border-radius:8px}
+.q-input-row input{flex:1;border:none;background:transparent;font-size:15px;color:#1a5490;padding:6px;font-family:sans-serif;outline:none}
+.q-input-row button{padding:8px 12px;border:none;border-radius:6px;font-size:13px;font-weight:bold;cursor:pointer;font-family:sans-serif}
+.q-add{background:#27ae60;color:white}
+.q-mic{background:#c9a227;color:white}
+.final{background:white;border-radius:16px;padding:18px;margin:12px;box-shadow:0 2px 12px rgba(0,0,0,.15);display:none}
+.final.show{display:block}
+.final h3{color:#27ae60;text-align:center;margin-bottom:12px}
+.final-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.final-btns button{padding:14px;border:none;border-radius:10px;font-size:14px;font-weight:bold;cursor:pointer;font-family:sans-serif;color:white}
+.btn-print{background:#1a5490}
+.btn-share{background:#25d366}
+.btn-pdf{background:#27ae60}
+.btn-copy{background:#c9a227}
+.btn-new{background:#888;grid-column:1/-1}
+.float-mic{position:fixed;bottom:20px;right:20px;width:64px;height:64px;border-radius:50%;background:#c9a227;color:white;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.3);z-index:999;display:none}
+.float-mic.show{display:block}
+.float-mic.listening{background:#ff4757;animation:pulse 1s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,71,87,.7)}70%{box-shadow:0 0 0 15px rgba(255,71,87,0)}100%{box-shadow:0 0 0 0 rgba(255,71,87,0)}}
+@media print{
+body{background:white!important;padding:0!important;margin:0!important}
+.header,.content,.topbar,.final,.float-mic,.foot,#stickyMic,#applyMenu,#applyCard,.card,.ans,.apply-card,.apply-menu,.q-input-row{display:none!important}
+.paper{display:block!important;box-shadow:none!important;margin:0!important;padding:15mm!important;background:white!important;font-family:serif!important;font-size:12pt!important;line-height:1.9!important;color:#000!important;width:100%!important}
+.paper p{display:block!important;margin:10px 0!important;flex:none!important;line-height:1.9!important}
+.inp{border:none!important;background:none!important;color:#000!important;padding:0!important;font-weight:bold!important;display:inline!important;min-width:0!important}
+.inp.filled{color:#000!important;font-weight:bold!important}
+.tex{border:none!important;background:none!important;color:#000!important;padding:0!important;font-weight:bold!important;display:block!important;min-height:auto!important;margin:5px 0!important}
+.tex.filled{color:#000!important;font-weight:bold!important}
+.q-list{list-style:decimal!important;padding-left:24px!important;display:block!important}
+.q-list li{display:list-item!important;background:none!important;border:none!important;padding:0!important;margin:6px 0!important;color:#000!important}
+.q-edit{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+<button onclick="backHome()">←</button>
+<h2 id="topTitle">📄 अर्ज तयार करा</h2>
+</div>
+
+<div class="header" id="mainHeader">
+<h1>📚 RTI मार्गदर्शक</h1>
+<p>माहिती अधिकार कायदा २००५</p>
+</div>
+
+<div class="content" id="mainContent">
+
+<div class="card">
+<h3>🔍 प्रश्न विचारा — शब्द टाइप करा किंवा बोला</h3>
+<div class="sr">
+<input type="text" id="query" placeholder="उदा. मुदत, दंड, अपील, कलम ७" />
+<button class="mic" id="micBtn" onclick="startVoice()">🎤</button>
+</div>
+<button class="sbtn" onclick="doSearch()">🔍 शोधा</button>
+</div>
+
+<div class="card">
+<h3>📋 तयार प्रश्न</h3>
+<button class="qq" onclick="ask('कलम 1')">📖 कलम 1 — कायद्याची सुरुवात</button>
+<button class="qq" onclick="ask('कलम 6')">📖 कलम 6 — अर्ज प्रक्रिया</button>
+<button class="qq" onclick="ask('कलम 7')">📖 कलम 7 — ३० दिवसांची मुदत</button>
+<button class="qq" onclick="ask('कलम 8')">📖 कलम 8 — सूट माहिती</button>
+<button class="qq" onclick="ask('कलम 19')">📖 कलम 19 — अपील</button>
+<button class="qq" onclick="ask('कलम 20')">📖 कलम 20 — दंड</button>
+<button class="qq" onclick="ask('मुदत')">💬 मुदत — कोणते कलम?</button>
+<button class="qq" onclick="ask('दंड')">💬 दंड — कोणते कलम?</button>
+<button class="qq" onclick="ask('सर्व कलमे')" style="background:#1a5490;color:white;font-weight:bold">📚 सर्व ३१ कलमे पहा →</button>
+</div>
+
+<div class="ans" id="ansBox">
+<h3>📌 उत्तर</h3>
+<div class="atxt" id="ansText"></div>
+<div class="aact">
+<button class="spk" onclick="speakLast()">🔊 ऐका</button>
+<button class="gem" onclick="openGem()">✨ Gemini</button>
+</div>
+</div>
+
+<div class="apply-card" id="applyCard">
+<button class="apply-btn" onclick="showApplyMenu()">
+<span style="font-size:38px;display:block;margin-bottom:8px">📄</span>
+अर्ज करा
+<span style="font-size:12px;opacity:.9;display:block;margin-top:6px;font-weight:normal">माहिती अधिकार अर्ज तयार करा</span>
+</button>
+</div>
+
+<div class="apply-menu" id="applyMenu">
+<h3 style="color:#1a5490;text-align:center;margin-bottom:14px">📋 अर्ज प्रकार निवडा</h3>
+<button class="type-btn" onclick="selectType('rti')">
+<b>📝 मूळ माहिती अधिकार अर्ज</b>
+<span>सरकारकडून माहिती मागण्यासाठी (कलम ६) — पहिली पायरी</span>
+</button>
+<button class="type-btn" onclick="selectType('first')">
+<b>📤 प्रथम अपील</b>
+<span>माहिती न मिळाल्यास (कलम १९(१)) — दुसरी पायरी</span>
+</button>
+<button class="type-btn" onclick="selectType('second')">
+<b>⚖️ द्वितीय अपील</b>
+<span>आयोगाकडे (कलम १९(३)) — तिसरी पायरी</span>
+</button>
+<button class="type-btn" onclick="hideApplyMenu()" style="background:#f0f2f5;text-align:center">
+<span style="color:#555">← मागे</span>
+</button>
+</div>
+
+<div class="foot" id="footNote">⚠️ हे अधिकृत सरकारी ॲप नाही.</div>
+</div>
+
+<div class="paper" id="paper"></div>
+
+<div class="final" id="finalBox">
+<h3>✅ अर्ज तयार आहे!</h3>
+<div class="final-btns">
+<button class="btn-print" onclick="window.print()">🖨️ प्रिंट</button>
+<button class="btn-share" onclick="shareApp()">📤 शेअर</button>
+<button class="btn-pdf" onclick="downloadPDF()">📥 PDF सेव्ह</button>
+<button class="btn-copy" onclick="copyApp()">📋 कॉपी</button>
+<button class="btn-new" onclick="backHome()">🔄 नवीन अर्ज</button>
+</div>
+</div>
+
+<button class="float-mic" id="floatMic" onclick="voiceFill()">🎤</button>
+
+<script src="rti-data.js"></script>
+<script>
+var SECTIONS = (typeof RTI_DATA !== "undefined" && RTI_DATA.sections) ? RTI_DATA.sections : {};
+var SECTIONS = {
+1:{title:"संक्षिप्त नाव, विस्तार आणि प्रारंभ",text:"या कायद्याला 'माहिती अधिकार अधिनियम, २००५' असे म्हणतात. संपूर्ण भारतात लागू.",simple:"हा कायदा २००५ साली संपूर्ण भारतात लागू झाला.",use:"अधिकारी 'लागू नाही' म्हणतो तेव्हा कलम १ उल्लेख."},
+2:{title:"व्याख्या",text:"माहिती म्हणजे कोणत्याही स्वरूपातील सामग्री — नोंदी, दस्तऐवज, मेमो, ईमेल, मत, सल्ला, अहवाल, कागदपत्रे, नमुने, डेटा.",simple:"माहिती म्हणजे काहीही — कागद, फाइल, ईमेल, फोटो — जे सरकारकडे आहे.",use:"'RTI कक्षेत बसत नाही' म्हटल्यास कलम २(f) उल्लेख."},
+3:{title:"कायद्याची प्रयोज्यता",text:"हा कायदा सर्व सार्वजनिक प्राधिकरणांना लागू आहे.",simple:"सर्व सरकारी कार्यालयांना लागू.",use:"कोणतेही सरकारी कार्यालय नकार देत असेल तर कलम ३."},
+4:{title:"स्वयंप्रकटीकरण",text:"प्रत्येक सार्वजनिक प्राधिकरणाने स्वतःहून १७ प्रकारची माहिती प्रकाशित करावी.",simple:"सरकारने स्वतःहून माहिती वेबसाईटवर टाकावी.",use:"माहिती वेबसाईटवर नसेल तर कलम ४."},
+5:{title:"माहिती अधिकारी नियुक्ती",text:"प्रत्येक सार्वजनिक प्राधिकरणाने माहिती अधिकारी (PIO) नियुक्त करावा.",simple:"प्रत्येक कार्यालयात एक माहिती अधिकारी असतो.",use:"'मी संबंधित नाही' म्हटल्यास कलम ५(२)."},
+6:{title:"अर्ज प्रक्रिया",text:"माहिती मिळवण्यासाठी अर्ज माहिती अधिकारी किंवा सहाय्यक माहिती अधिकारी यांच्याकडे करावा. अर्ज करण्याचे कारण सांगण्याची गरज नाही.",simple:"अर्ज मराठी, हिंदी, इंग्रजी किंवा स्थानिक भाषेत. ₹१० फी. कारण सांगायची गरज नाही.",use:"अर्ज कसा करायचा हे कलम ६ सांगते."},
+7:{title:"मुदत — ३० दिवस",text:"माहिती अधिकारी ३० दिवसांत माहिती द्यायला बांधील. जीवाशी संबंधित असल्यास ४८ तासांत. मुदतीत न दिल्यास 'नकार' समजला जातो.",simple:"३० दिवसांत माहिती द्यावी लागते. न दिल्यास नकार समजला जातो.",use:"अधिकारी विलंब लावतो तेव्हा कलम ७(१)."},
+8:{title:"सूट माहिती (१० अपवाद)",text:"कलम ८(१) मध्ये १० प्रकारची माहिती सूट आहे: राष्ट्रीय सुरक्षा, परराष्ट्र संबंध, व्यावसायिक गुप्तता, बौद्धिक संपदा, न्यायालयीन निर्णय, तपास, कॅबिनेट कागदपत्रे, वैयक्तिक माहिती.",simple:"१० प्रकारची माहिती सूट. बाकी सर्व द्यावी लागते. जनहित असेल तर सूट माहितीही द्यावी (कलम ८(२)).",use:"'गोपनीय' म्हणतो तेव्हा कलम ८(२)."},
+9:{title:"विशिष्ट प्रकरणी नकार",text:"अर्ज जर सार्वजनिक प्राधिकरणाच्या कार्याशी संबंधित नसेल तर नकार देता येतो.",simple:"अर्ज संबंधित विषयावर नसेल तर नकार. पण कारण लिखित द्यावे.",use:"नकाराचे कारण लिखित स्वरूपात मागा."},
+10:{title:"विभाजनीयता",text:"जर माहितीचा काही भाग सूट असेल, तर बाकीचा भाग द्यावा लागतो.",simple:"पूर्ण फाइल सूट नसेल तर जो भाग सूट नाही तो द्यावा.",use:"'संपूर्ण फाइल गोपनीय' म्हटल्यास कलम १०."},
+11:{title:"तृतीय पक्षाची माहिती",text:"तृतीय पक्षाची माहिती असल्यास ५ दिवसांत त्याला विचारावे. जनहित असेल तर माहिती द्यावी.",simple:"इतर व्यक्तीची माहिती असल्यास ५ दिवसांत त्याला विचारावे.",use:"'तृतीय पक्ष' म्हटल्यास कलम ११(२)."},
+12:{title:"केंद्रीय माहिती आयोग स्थापना",text:"केंद्र सरकार केंद्रीय माहिती आयोग (CIC) स्थापन करेल.",simple:"केंद्रात CIC आहे — द्वितीय अपील येथे.",use:"केंद्रीय विभागांच्या अपीलसाठी."},
+13:{title:"मुख्य माहिती आयुक्त कार्यकाळ",text:"मुख्य माहिती आयुक्त आणि माहिती आयुक्तांचा कार्यकाळ ५ वर्षे किंवा ६५ वयापर्यंत.",simple:"आयुक्तांचा कार्यकाळ ५ वर्षे.",use:"माहितीसाठी."},
+14:{title:"मुख्य माहिती आयुक्त काढणे",text:"राष्ट्रपतींनी निर्दिष्ट कारणांवर आयुक्तांना काढता येते.",simple:"आयुक्तांना काढण्याची प्रक्रिया.",use:"माहितीसाठी."},
+15:{title:"राज्य माहिती आयोग स्थापना",text:"राज्य सरकार राज्य माहिती आयोग (SIC) स्थापन करेल.",simple:"राज्यात SIC आहे — महाराष्ट्रात राज्य माहिती आयोग मुंबई येथे.",use:"राज्य विभागांच्या द्वितीय अपीलसाठी."},
+16:{title:"राज्य मुख्य आयुक्त कार्यकाळ",text:"राज्य मुख्य माहिती आयुक्तांचा कार्यकाळ ५ वर्षे.",simple:"राज्य आयुक्तांचा कार्यकाळ ५ वर्षे.",use:"माहितीसाठी."},
+17:{title:"राज्य मुख्य आयुक्त काढणे",text:"राज्यपालांनी आयुक्तांना काढता येते.",simple:"राज्य आयुक्तांना काढण्याची प्रक्रिया.",use:"माहितीसाठी."},
+18:{title:"आयोगाचे अधिकार आणि कार्ये",text:"आयोगाला दिवाणी न्यायालयाचे अधिकार आहेत — समन्स, साक्षीदार तपासणी, कागदपत्रे मागणे.",simple:"माहिती आयोगाला न्यायालयासारखे अधिकार आहेत.",use:"द्वितीय अपील करताना कलम १८."},
+19:{title:"अपील — प्रथम आणि द्वितीय",text:"कलम १९(१) — ३० दिवसांत प्रथम अपील वरिष्ठ अधिकाऱ्याकडे. कलम १९(३) — ९० दिवसांत द्वितीय अपील माहिती आयोगाकडे.",simple:"प्रथम अपील ३० दिवसांत. द्वितीय अपील ९० दिवसांत. दोन्ही मोफत.",use:"अधिकारी नकार देत असेल तर हे कलम."},
+20:{title:"दंड — दररोज ₹२५०",text:"माहिती अधिकाऱ्याने जाणूनबुजून माहिती न दिल्यास दररोज ₹२५० दंड, कमाल ₹२५,०००. शिस्तभंगाची कारवाईही.",simple:"माहिती न दिल्यास अधिकाऱ्याला दररोज ₹२५० दंड.",use:"दंडाची मागणी करण्यासाठी कलम २०(१)."},
+21:{title:"सद्भावनेचे संरक्षण",text:"सद्भावनेने केलेल्या कृतीवर खटला चालवता येत नाही.",simple:"अधिकाऱ्याचे संरक्षण.",use:"माहितीसाठी."},
+22:{title:"कायद्याला प्राधान्य",text:"RTI कायदा इतर कायद्यांवर प्राधान्य राहील. Official Secrets Act असूनही RTI लागू.",simple:"RTI ला इतर कायद्यांवर प्राधान्य.",use:"'Official Secrets Act' सांगतो तेव्हा कलम २२."},
+23:{title:"न्यायालयीन हस्तक्षेप बंदी",text:"या कायद्यांतर्गत कार्यवाहीवर न्यायालयात खटला चालवता येत नाही.",simple:"न्यायालयीन हस्तक्षेपावर बंदी.",use:"माहितीसाठी."},
+24:{title:"काही संस्थांना लागू नाही",text:"गुप्तचर विभाग, सुरक्षा संस्था इत्यादी काही संस्थांना हा कायदा लागू नाही.",simple:"फक्त २२ विशिष्ट संस्थांना लागू नाही. बाकी सर्वांना लागू.",use:"'लागू नाही' म्हणतो तेव्हा यादीत आहे का तपासा."},
+25:{title:"देखरेख आणि अहवाल",text:"केंद्रीय माहिती आयोग दरवर्षी राष्ट्रपतींना अहवाल देईल.",simple:"आयोग दरवर्षी अहवाल देतो.",use:"माहितीसाठी."},
+26:{title:"राज्य सरकारचे कार्यक्रम",text:"राज्य सरकार जनजागृती कार्यक्रम तयार करेल.",simple:"राज्य सरकार जनजागृती करेल.",use:"माहितीसाठी."},
+27:{title:"केंद्र सरकारचे कार्यक्रम",text:"केंद्र सरकार जनजागृती कार्यक्रम तयार करेल.",simple:"केंद्र सरकार जनजागृती करेल.",use:"माहितीसाठी."},
+28:{title:"नियम बनविण्याचा अधिकार",text:"सक्षम प्राधिकाऱ्याला नियम बनविण्याचा अधिकार आहे.",simple:"नियम बनविण्याचा अधिकार.",use:"माहितीसाठी."},
+29:{title:"अडचणी दूर करण्याचा अधिकार",text:"केंद्र सरकार आदेशाद्वारे अडचणी दूर करू शकते.",simple:"केंद्र सरकार अडचणी दूर करू शकते.",use:"माहितीसाठी."},
+30:{title:"रद्द करणे",text:"माहिती अधिकार अधिनियम, २००२ रद्द करण्यात आला.",simple:"जुना २००२ चा कायदा रद्द झाला.",use:"माहितीसाठी."},
+31:{title:"वगळलेला कलम",text:"हा कलम वगळण्यात आला आहे.",simple:"रिकामा कलम.",use:"माहितीसाठी."}
+};
+var lastAnswer = "";
+var currentType = null;
+var lastFocus = null;
+var questions = [];
+
+function m2e(s){var m={"०":"0","१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9"};return s.replace(/[०-९]/g,function(x){return m[x]})}
+function w2n(s){var w={"एकतीस":31,"तीस":30,"एकोणतीस":29,"अठ्ठावीस":28,"सत्तावीस":27,"सव्वीस":26,"पंचवीस":25,"चोवीस":24,"तेवीस":23,"बावीस":22,"एकवीस":21,"वीस":20,"एकोणीस":19,"अठरा":18,"सतरा":17,"सोळा":16,"पंधरा":15,"चौदा":14,"तेरा":13,"बारा":12,"अकरा":11,"दहा":10,"नऊ":9,"आठ":8,"सात":7,"सहा":6,"पाच":5,"चार":4,"तीन":3,"दोन":2,"एक":1};var k=Object.keys(w).sort(function(a,b){return b.length-a.length});for(var i=0;i<k.length;i++){if(s.indexOf(k[i])>-1)return w[k[i]]}return null}
+function show(t){
+  var fullText = t + "\n\n━━━━━━━━━━━━━━\n\n💡 या उत्तराने समाधान झाले नाही?\n👉 '✨ Gemini' बटण दाबा — Google Gemini मध्ये अजून माहिती शोधा.";
+  lastAnswer = fullText;
+  document.getElementById("ansText").textContent = fullText;
+  document.getElementById("ansBox").classList.add("show");
+  speakText(t);
+  document.getElementById("ansBox").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function section(n){var s=SECTIONS[n];return "📖 कलम "+n+" — "+s.title+"\n\n📜 कायद्यातील मजकूर:\n"+s.text+"\n\n💡 सोप्या भाषेत:\n"+s.simple+"\n\n🎯 कधी वापरायचे:\n"+s.use}
+function doSearch(){var q=document.getElementById("query").value.trim();if(!q){alert("कृपया प्रश्न लिहा.");return}ask(q)}
+function ask(q){
+  document.getElementById("query").value = q;
+  var qq = q.toLowerCase().trim();
+  var qE = m2e(qq);
+  if(qq.indexOf("सर्व कलम")>-1||qq.indexOf("सगळे कलम")>-1){
+    var l="📚 सर्व ३१ कलमे:\n\n";
+    for(var i=1;i<=31;i++){if(SECTIONS[i])l+="कलम "+i+": "+SECTIONS[i].title+"\n"}
+    show(l);return;
+  }
+  var sn=null;
+  var dm=qE.match(/कलम\s*(\d+)/)||qE.match(/(\d+)\s*कलम/)||qE.match(/section\s*(\d+)/);
+  if(dm)sn=parseInt(dm[1]);
+  if(!sn&&qq.indexOf("कलम")>-1){
+    var cn=qq.replace(/कलम/g,"").replace(/[।,.?!]/g,"").trim();
+    var wn=w2n(cn);
+    if(wn)sn=wn;
+  }
+  if(sn&&SECTIONS[sn]){show(section(sn));return}
+  var words = qq.replace(/[।,.?!;:]/g," ").split(/\s+/).filter(function(w){return w.length>=2});
+  if(words.length===0)words=[qq];
+  var matches=[];
+  for(var k=1;k<=31;k++){
+    if(!SECTIONS[k])continue;
+    var s=SECTIONS[k];
+    var full=((s.title||"")+" "+(s.text||"")+" "+(s.simple||"")+" "+(s.use||"")).toLowerCase();
+    var sc=0;
+    for(var w=0;w<words.length;w++){
+      var ww=words[w];
+      if(ww.length<2)continue;
+      if(full.indexOf(ww)>-1)sc+=3;
+    }
+    if(sc>0)matches.push({num:k,score:sc});
+  }
+  matches.sort(function(a,b){return b.score-a.score});
+  if(matches.length===1){show(section(matches[0].num));return}
+  if(matches.length>1){
+    var r="📚 तुमच्या शब्दांशी संबंधित "+matches.length+" कलमे:\n\n";
+    for(var m=0;m<matches.length&&m<8;m++){
+      var mn=matches[m].num;
+      r+="━━━━━━━━━━━━━━\n📖 कलम "+mn+" — "+SECTIONS[mn].title+"\n"+SECTIONS[mn].simple+"\n\n";
+    }
+    r+="━━━━━━━━━━━━━━\n💡 पूर्ण पाहण्यासाठी \"कलम "+matches[0].num+"\" टाइप करा.";
+    show(r);return;
+  }
+  var tacts=(typeof RTI_DATA!=="undefined"&&RTI_DATA.tactics)?RTI_DATA.tactics:[];
+  for(var t=0;t<tacts.length;t++){
+    var tac=tacts[t];
+    for(var tk=0;tk<tac.keywords.length;tk++){
+      if(qq.indexOf(tac.keywords[tk].toLowerCase())>-1){
+        show("📌 कायदेशीर उत्तर:\n\n"+tac.response);return;
+      }
+    }
+  }
+  var decs=(typeof RTI_DATA!=="undefined"&&RTI_DATA.courtDecisions)?RTI_DATA.courtDecisions:[];
+  for(var d=0;d<decs.length;d++){
+    var dec=decs[d];
+    var dn=dec.name.toLowerCase();
+    var df=dn.split(" v. ")[0];
+    if(qq.indexOf(dn)>-1||qq.indexOf(df)>-1||qq.indexOf(dec.summary.toLowerCase())>-1||qq.indexOf(dec.use.toLowerCase())>-1){
+      show("⚖️ "+dec.name+" ("+dec.year+")\n📌 "+dec.court+"\n\n"+dec.summary+"\n\n🎯 "+dec.use);return;
+    }
+  }
+  show("माफ करा, हा शब्द सापडला नाही.\n\n💡 वापरा: मुदत, दंड, अपील, अर्ज, अधिकारी, सूट, तपास, बँक, पगार\n\nकिंवा कलम क्रमांक: कलम 1, कलम 7, कलम 20");
+}
+
+function speakLast(){if(lastAnswer)speakText(lastAnswer)}
+function speakText(t){if(!("speechSynthesis"in window))return;try{window.speechSynthesis.cancel();var c=t.replace(/[📖📜💡🎯📌📚🔊⚠️━─]/g,"");var u=new SpeechSynthesisUtterance(c);u.lang="mr-IN";u.rate=.9;var v=window.speechSynthesis.getVoices();for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.indexOf("mr")>-1){u.voice=v[i];break}}window.speechSynthesis.speak(u)}catch(e){}}
+function openGem(){window.open("https://gemini.google.com","_blank")}
+var rec=null,listening=false;
+function startVoice(){var b=document.getElementById("micBtn");if(!("webkitSpeechRecognition"in window)&&!("SpeechRecognition"in window)){alert("व्हॉईस चालत नाही.");return}if(listening){if(rec)rec.stop();listening=false;b.classList.remove("listening");return}var SR=window.SpeechRecognition||window.webkitSpeechRecognition;rec=new SR();rec.lang="mr-IN";rec.continuous=false;rec.interimResults=false;rec.onstart=function(){listening=true;b.classList.add("listening")};rec.onresult=function(e){var t=e.results[0][0].transcript;document.getElementById("query").value=t;ask(t)};rec.onerror=function(){listening=false;b.classList.remove("listening");alert("ऐकू आले नाही.")};rec.onend=function(){listening=false;b.classList.remove("listening")};try{rec.start()}catch(e){alert("व्हॉईस सुरू झाले नाही.")}}
+
+function showApplyMenu(){document.getElementById("applyMenu").style.display="block";document.getElementById("applyCard").style.display="none"}
+function hideApplyMenu(){document.getElementById("applyMenu").style.display="none";document.getElementById("applyCard").style.display="block"}
+function selectType(t){currentType=t;questions=[];
+document.getElementById("mainHeader").style.display="none";
+document.getElementById("mainContent").style.display="none";
+document.getElementById("topbar").classList.add("show");
+document.getElementById("paper").classList.add("show");
+document.getElementById("finalBox").classList.remove("show");
+document.getElementById("floatMic").classList.add("show");
+var tt={rti:"📄 मूळ माहिती अधिकार अर्ज",first:"📤 प्रथम अपील",second:"⚖️ द्वितीय अपील"};
+document.getElementById("topTitle").textContent=tt[t];
+renderPaper();window.scrollTo(0,0)}
+function backHome(){if(!confirm("बाहेर पडायचे?"))return;
+document.getElementById("mainHeader").style.display="block";
+document.getElementById("mainContent").style.display="block";
+document.getElementById("topbar").classList.remove("show");
+document.getElementById("paper").classList.remove("show");
+document.getElementById("finalBox").classList.remove("show");
+document.getElementById("floatMic").classList.remove("show");
+document.getElementById("applyMenu").style.display="none";
+document.getElementById("applyCard").style.display="block";
+currentType=null;questions=[];window.scrollTo(0,0)}
+
+function renderPaper(){var h='<div class="paper-heading">माहिती अधिकार अधिनियम, २००५ अंतर्गत अर्ज नमुना</div>';
+if(currentType==="rti"){
+h+='<p><b>प्रति,</b></p>';
+h+='<p><input class="inp" id="f-pio" data-key="pio" placeholder="माहिती अधिकारी नाव" />,</p>';
+h+='<p>माहिती अधिकार अधिकारी,</p>';
+h+='<p><input class="inp" id="f-vibhag" data-key="vibhag" placeholder="विभाग / कार्यालय" />,</p>';
+h+='<p><textarea class="tex" id="f-kacheriPatta" data-key="kacheriPatta" placeholder="कार्यालयाचा पत्ता"></textarea></p>';
+h+='<p><b>विषय:</b> माहिती अधिकार अधिनियम, २००५ अंतर्गत "<input class="inp" id="f-vishay" data-key="vishay" placeholder="विषय" />" संदर्भात माहिती मागणी.</p>';
+h+='<p>आदरणीय महोदय / महोदया,</p>';
+h+='<p style="text-align:justify">मी, <input class="inp" id="f-naav" data-key="naav" placeholder="तुमचे नाव" />, वडिलांचे/पतीचे नाव <input class="inp" id="f-vadil" data-key="vadil" placeholder="वडिल नाव" />, रा. <textarea class="tex" id="f-patta" data-key="patta" placeholder="संपूर्ण पत्ता"></textarea>, या पत्राद्वारे कलम ६(१) अन्वये खालील माहिती मागत आहे:</p>';
+h+='<p><b>प्रश्न:</b></p><ol class="q-list" id="qList"></ol><div id="qAddBox"></div>';
+h+='<p><textarea class="tex" id="f-manogat" data-key="manogat" placeholder="अर्जाचे मनोगत (ऐच्छिक)"></textarea></p>';
+h+='<p style="text-align:justify">सदर माहिती कलम ६(३) अन्वये ३० दिवसांच्या आत द्यावी. विहित शुल्क ₹१० सह अर्ज सादर करत आहे.</p>';
+}else if(currentType==="first"){
+h+='<p><b>प्रति,</b></p><p><input class="inp" id="f-faa" data-key="faa" placeholder="प्रथम अपील अधिकारी" />,</p>';
+h+='<p>प्रथम अपील अधिकारी,</p><p><input class="inp" id="f-vibhag" data-key="vibhag" placeholder="विभाग" />,</p>';
+h+='<p><textarea class="tex" id="f-kacheriPatta" data-key="kacheriPatta" placeholder="कार्यालयाचा पत्ता"></textarea></p>';
+h+='<p><b>विषय:</b> कलम १९(१) प्रथम अपील — मूळ अर्ज क्र. <input class="inp" id="f-rtiNo" data-key="rtiNo" placeholder="RTI क्र." /> दि. <input class="inp" id="f-rtiDate" data-key="rtiDate" placeholder="दिनांक" />.</p>';
+h+='<p>मी, <input class="inp" id="f-naav" data-key="naav" placeholder="नाव" />, वडिलांचे/पतीचे नाव <input class="inp" id="f-vadil" data-key="vadil" placeholder="वडिल" />, रा. <textarea class="tex" id="f-patta" data-key="patta" placeholder="पत्ता"></textarea>, कलम १९(१) अन्वये प्रथम अपील सादर करत आहे.</p>';
+h+='<p><b>तक्रार:</b></p><textarea class="tex" id="f-complaint" data-key="complaint" placeholder="अधिकाऱ्याने काय केले नाही"></textarea>';
+h+='<p><b>मागणी:</b></p><textarea class="tex" id="f-demand" data-key="demand" placeholder="उदा. माहिती मिळावी"></textarea>';
+h+='<p><textarea class="tex" id="f-manogat" data-key="manogat" placeholder="मनोगत (ऐच्छिक)"></textarea></p>';
+}else if(currentType==="second"){
+h+='<p><b>प्रति,</b></p><p>मा. राज्य माहिती आयुक्त,</p><p>महाराष्ट्र राज्य माहिती आयोग, मुंबई</p>';
+h+='<p><b>विषय:</b> कलम १९(३) द्वितीय अपील — मूळ अर्ज क्र. <input class="inp" id="f-rtiNo" data-key="rtiNo" placeholder="RTI क्र." /></p>';
+h+='<p>मी, <input class="inp" id="f-naav" data-key="naav" placeholder="नाव" />, रा. <textarea class="tex" id="f-patta" data-key="patta" placeholder="पत्ता"></textarea>, कलम १९(३) अन्वये द्वितीय अपील सादर करत आहे.</p>';
+h+='<p><b>तक्रार:</b></p><textarea class="tex" id="f-complaint" data-key="complaint" placeholder="तक्रार"></textarea>';
+h+='<p><b>मागणी:</b></p><textarea class="tex" id="f-demand" data-key="demand" placeholder="मागणी"></textarea>';
+}
+h+='<div style="margin-top:22px;text-align:right">';
+h+='<p>सादर,</p><p><b><input class="inp" id="f-naav2" data-key="naav2" placeholder="तुमचे नाव" /></b></p>';
+h+='<p>मोबाईल: <input class="inp" id="f-mobile" data-key="mobile" placeholder="मोबाईल" /></p>';
+h+='<p>ठिकाण: <input class="inp" id="f-sthan" data-key="sthan" placeholder="ठिकाण" /></p>';
+h+='<p>दिनांक: '+new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear()+'</p>';
+h+='<p>स्वाक्षरी: ____________________</p></div>';
+h+='<button onclick="finishApp()" style="display:block;width:100%;padding:16px;margin-top:20px;background:#27ae60;color:white;border:none;border-radius:12px;font-size:16px;font-weight:bold;cursor:pointer;font-family:sans-serif">✅ अर्ज पूर्ण करा</button>';
+document.getElementById("paper").innerHTML=h;
+var all=document.querySelectorAll(".inp, .tex");
+for(var i=0;i<all.length;i++){all[i].addEventListener("focus",onFocus);all[i].addEventListener("blur",onBlur);all[i].addEventListener("input",onInput)}
+renderQuestions()}
+
+function onFocus(e){lastFocus=e.target;e.target.classList.remove("filled")}
+function onBlur(e){if(e.target.value.trim())e.target.classList.add("filled")}
+function onInput(e){if(e.target.value.trim())e.target.classList.add("filled");else e.target.classList.remove("filled");
+if(e.target.id==="f-naav"){var n=document.getElementById("f-naav2");if(n)n.value=e.target.value}}
+
+function renderQuestions(){var l=document.getElementById("qList");var ab=document.getElementById("qAddBox");if(!l||!ab)return;
+var h="";
+for(var i=0;i<questions.length;i++){h+='<li><span class="q-num">'+(i+1)+'.</span><span style="flex:1">'+escapeHtml(questions[i])+'</span><button class="q-edit" onclick="editQ('+i+')">✏️</button><button class="q-edit" onclick="delQ('+i+')" style="background:#e74c3c">✕</button></li>'}
+l.innerHTML=h;
+if(questions.length<15){var n=questions.length+1;
+ab.innerHTML='<div class="q-input-row"><span style="color:#1a5490;font-weight:bold">'+n+'.</span><input type="text" id="qNew" placeholder="प्रश्न '+n+' टाइप करा..." /><button class="q-mic" onclick="voiceQ()">🎤</button><button class="q-add" onclick="addQ()">+ जोडा</button></div>'}
+else{ab.innerHTML='<p style="color:#888;font-size:13px;text-align:center">✅ १५ प्रश्न पूर्ण</p>'}}
+
+function addQ(){var i=document.getElementById("qNew");if(!i)return;var v=i.value.trim();if(!v){alert("प्रश्न टाइप करा.");return}questions.push(v);renderQuestions();setTimeout(function(){var n=document.getElementById("qNew");if(n)n.focus()},100)}
+function editQ(i){var v=prompt("प्रश्न बदला:",questions[i]);if(v&&v.trim()){questions[i]=v.trim();renderQuestions()}}
+function delQ(i){if(!confirm("प्रश्न काढायचा?"))return;questions.splice(i,1);renderQuestions()}
+function voiceQ(){if(!("webkitSpeechRecognition"in window)&&!("SpeechRecognition"in window)){alert("व्हॉईस चालत नाही.");return}var i=document.getElementById("qNew");var SR=window.SpeechRecognition||window.webkitSpeechRecognition;var r=new SR();r.lang="mr-IN";r.onresult=function(e){if(i)i.value=e.results[0][0].transcript};try{r.start()}catch(e){}}
+
+function voiceFill(){if(!("webkitSpeechRecognition"in window)&&!("SpeechRecognition"in window)){alert("व्हॉईस चालत नाही.");return}if(!lastFocus||!lastFocus.tagName){alert("आधी कागदावरील जागेवर टॅप करा.");return}
+var b=document.getElementById("floatMic");var SR=window.SpeechRecognition||window.webkitSpeechRecognition;var r=new SR();r.lang="mr-IN";r.continuous=false;r.interimResults=false;b.classList.add("listening");
+r.onresult=function(e){var t=e.results[0][0].transcript;if(lastFocus){lastFocus.value=t;lastFocus.classList.add("filled");if(lastFocus.id==="f-naav"){var n=document.getElementById("f-naav2");if(n){n.value=t;n.classList.add("filled")}}}};
+r.onend=function(){b.classList.remove("listening")};r.onerror=function(){b.classList.remove("listening")};try{r.start()}catch(e){b.classList.remove("listening")}}
+
+function finishApp(){if(!questions.length){if(!confirm("एकही प्रश्न नाही. पुढे जायचे?"))return}
+document.getElementById("floatMic").classList.remove("show");
+document.getElementById("finalBox").classList.add("show");
+document.getElementById("finalBox").scrollIntoView({behavior:"smooth",block:"start"})}
+
+function escapeHtml(t){var d=document.createElement("div");d.appendChild(document.createTextNode(t));return d.innerHTML}
+
+
+
+
+function downloadPDF() {
+  if (!confirm("📥 PDF तयार करण्यासाठी:\n\n१. खालील 'OK' दाबा\n२. Print dialog उघडेल\n३. वरच्या 'Printer' वर टॅप करा\n४. 'Save as PDF' निवडा\n५. 'Save' दाबा\n\nPDF तुमच्या Downloads मध्ये जाईल ✅\n\nचालू ठेवायचे?")) return;
+  setTimeout(function() { window.print(); }, 300);
+}
+
+
+function shareApp() {
+  var paper = document.getElementById("paper");
+  var txt = paper ? paper.innerText : "";
+  if (!txt || txt.length < 20) {
+    alert("आधी अर्ज भरा.");
+    return;
+  }
+  if (navigator.share) {
+    navigator.share({ title: "RTI अर्ज", text: txt }).catch(function(){});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(function() {
+      alert("अर्ज कॉपी झाला! WhatsApp मध्ये पेस्ट करा.");
+    });
+  } else {
+    alert("शेअर शक्य नाही.");
+  }
+}
+
+function copyApp(){var t=document.getElementById("paper").innerText;if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){alert("अर्ज कॉपी झाला!")})}else{alert("कॉपी करण्यासाठी अर्जावर लांब दाबा.")}}
+
+window.onload=function(){if("speechSynthesis"in window)window.speechSynthesis.getVoices()};
+</script>
+</body>
+</html>
