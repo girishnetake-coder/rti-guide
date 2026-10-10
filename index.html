@@ -96,6 +96,115 @@ body{background:white!important;padding:0!important;margin:0!important}
 .q-edit{display:none!important}
 }
 </style>
+
+<style>
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background-attachment: fixed !important;
+}
+.card, .apply-card, .ans {
+  background: linear-gradient(145deg, #ffffff 0%, #f7fafc 100%) !important;
+  border: 1px solid rgba(26,84,144,.08) !important;
+  box-shadow: 0 6px 18px rgba(26,84,144,.15), 0 2px 4px rgba(0,0,0,.05), inset 0 1px 0 rgba(255,255,255,.9) !important;
+  border-radius: 16px !important;
+}
+.sbtn, .search-btn {
+  background: linear-gradient(145deg,#3b82f6 0%,#1a5490 50%,#0d3b66 100%) !important;
+  box-shadow: 0 4px 0 #082943, 0 6px 12px rgba(26,84,144,.35), inset 0 1px 0 rgba(255,255,255,.25) !important;
+  transition: transform .1s, box-shadow .1s !important;
+}
+.sbtn:active, .search-btn:active {
+  transform: translateY(4px) !important;
+  box-shadow: 0 0 0 #082943, 0 1px 3px rgba(26,84,144,.4) !important;
+}
+.qq {
+  background: linear-gradient(145deg,#ffffff 0%,#eef2f7 100%) !important;
+  border: 1px solid rgba(26,84,144,.12) !important;
+  box-shadow: 0 3px 0 rgba(26,84,144,.15), 0 4px 8px rgba(26,84,144,.1), inset 0 1px 0 rgba(255,255,255,.9) !important;
+  transition: transform .1s, box-shadow .1s !important;
+}
+.qq:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 0 0, 0 1px 2px rgba(26,84,144,.15) !important;
+}
+.apply-btn {
+  background: linear-gradient(145deg,#667eea 0%,#5568d3 50%,#4a5568 100%) !important;
+  box-shadow: 0 5px 0 #2d3748, 0 8px 16px rgba(102,126,234,.4), inset 0 1px 0 rgba(255,255,255,.2) !important;
+  transition: transform .1s, box-shadow .1s !important;
+}
+.apply-btn:active {
+  transform: translateY(5px) !important;
+  box-shadow: 0 0 0, 0 2px 4px rgba(102,126,234,.4) !important;
+}
+.type-btn {
+  background: linear-gradient(145deg,#ffffff 0%,#f0f4f8 100%) !important;
+  box-shadow: 0 3px 0 rgba(26,84,144,.15), 0 4px 8px rgba(26,84,144,.1) !important;
+  transition: transform .1s !important;
+}
+.type-btn:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 0 0 !important;
+}
+.mic, #micBtn, #floatMic {
+  background: linear-gradient(145deg,#f0b90b 0%,#c9a227 50%,#a8841c 100%) !important;
+  box-shadow: 0 4px 0 #7a6014, 0 6px 10px rgba(201,162,39,.4), inset 0 1px 0 rgba(255,255,255,.3) !important;
+  transition: transform .1s !important;
+}
+.mic:active, #micBtn:active, #floatMic:active {
+  transform: translateY(4px) scale(.95) !important;
+  box-shadow: 0 0 0, 0 1px 3px rgba(201,162,39,.4) !important;
+}
+.rti3d {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-weight: 700;
+  color: white;
+  min-height: 60px;
+  transition: transform .1s, box-shadow .1s;
+  border: none;
+}
+.rti3d-icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 3px;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.2));
+}
+.rti3d-label {
+  font-size: 13px;
+  letter-spacing: .3px;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+}
+.rti3d-mh {
+  background: linear-gradient(145deg,#2ecc71 0%,#27ae60 50%,#1e8449 100%) !important;
+  box-shadow: 0 5px 0 #145a32, 0 7px 12px rgba(30,132,73,.4), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+.rti3d-mh:active {
+  transform: translateY(5px) !important;
+  box-shadow: 0 0 0 #145a32, 0 2px 4px rgba(30,132,73,.4) !important;
+}
+.rti3d-cen {
+  background: linear-gradient(145deg,#3b82f6 0%,#1a5490 50%,#0d3b66 100%) !important;
+  box-shadow: 0 5px 0 #082943, 0 7px 12px rgba(26,84,144,.4), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+.rti3d-cen:active {
+  transform: translateY(5px) !important;
+  box-shadow: 0 0 0 #082943, 0 2px 4px rgba(26,84,144,.4) !important;
+}
+.lang-card {
+  background: linear-gradient(145deg,#ffffff 0%,#f0f4ff 100%) !important;
+}
+.header h1 {
+  text-shadow: 0 2px 4px rgba(0,0,0,.3), 0 4px 12px rgba(102,126,234,.4) !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -110,6 +219,33 @@ body{background:white!important;padding:0!important;margin:0!important}
 </div>
 
 <div class="content" id="mainContent">
+
+<div class="card lang-card" style="background:white;border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:0 4px 10px rgba(26,84,144,.12);text-align:center">
+<div style="font-size:12px;color:#667eea;margin-bottom:6px;font-weight:700">🌐 भाषा / Language</div>
+<div id="google_translate_element"></div>
+</div>
+
+<div class="card online-card" style="background:linear-gradient(145deg,#ffffff 0%,#f0f4f8 100%);border-radius:16px;padding:14px;margin-bottom:14px;box-shadow:0 6px 16px rgba(26,84,144,.15);border:1px solid rgba(26,84,144,.08)">
+<h3 style="color:#1a5490;font-size:14px;margin-bottom:10px;text-align:center;font-weight:700">🌐 ऑनलाइन RTI अर्ज करा</h3>
+<div style="display:flex;gap:8px">
+<a href="https://rtionline.maharashtra.gov.in" target="_blank" class="rti3d rti3d-mh">
+<span class="rti3d-icon">🏛️</span>
+<span class="rti3d-label">महाराष्ट्र</span>
+</a>
+<a href="https://rtionline.gov.in" target="_blank" class="rti3d rti3d-cen">
+<span class="rti3d-icon">🇮🇳</span>
+<span class="rti3d-label">केंद्र</span>
+</a>
+</div>
+</div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'mr', includedLanguages: 'en,hi,mr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
 <div class="card">
 <h3>🔍 प्रश्न विचारा — शब्द टाइप करा किंवा बोला</h3>
@@ -143,12 +279,7 @@ body{background:white!important;padding:0!important;margin:0!important}
 </div>
 
 
-<div class="card" style="background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.15);text-align:center">
-<a href="https://rtionline.gov.in" target="_blank" style="display:block;width:100%;padding:18px;background:linear-gradient(135deg,#27ae60 0%,#1e8449 100%);color:white;border:none;border-radius:14px;font-size:18px;font-weight:bold;text-decoration:none;font-family:sans-serif">
-🌐 ऑनलाइन अर्ज करा
-<span style="font-size:12px;opacity:.9;display:block;margin-top:6px;font-weight:normal">rtionline.gov.in वर जा</span>
-</a>
-</div>
+
 
 <div class="apply-card" id="applyCard">
 <button class="apply-btn" onclick="showApplyMenu()">
