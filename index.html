@@ -274,7 +274,7 @@ function googleTranslateElementInit() {
 <div class="atxt" id="ansText"></div>
 <div class="aact">
 <button class="spk" onclick="speakLast()">🔊 ऐका</button>
-<button class="gem" onclick="openGem()">✨ Gemini</button>
+<button class="gem" onclick="openGoogleAI()">🤖 Google AI</button>
 </div>
 </div>
 
@@ -370,7 +370,7 @@ var questions = [];
 function m2e(s){var m={"०":"0","१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9"};return s.replace(/[०-९]/g,function(x){return m[x]})}
 function w2n(s){var w={"एकतीस":31,"तीस":30,"एकोणतीस":29,"अठ्ठावीस":28,"सत्तावीस":27,"सव्वीस":26,"पंचवीस":25,"चोवीस":24,"तेवीस":23,"बावीस":22,"एकवीस":21,"वीस":20,"एकोणीस":19,"अठरा":18,"सतरा":17,"सोळा":16,"पंधरा":15,"चौदा":14,"तेरा":13,"बारा":12,"अकरा":11,"दहा":10,"नऊ":9,"आठ":8,"सात":7,"सहा":6,"पाच":5,"चार":4,"तीन":3,"दोन":2,"एक":1};var k=Object.keys(w).sort(function(a,b){return b.length-a.length});for(var i=0;i<k.length;i++){if(s.indexOf(k[i])>-1)return w[k[i]]}return null}
 function show(t){
-  var fullText = t + "\n\n━━━━━━━━━━━━━━\n\n💡 या उत्तराने समाधान झाले नाही?\n👉 '✨ Gemini' बटण दाबा — Google Gemini मध्ये अजून माहिती शोधा.";
+  var fullText = t + "\n\n━━━━━━━━━━━━━━\n\n💡 या उत्तराने समाधान झाले नाही?\n👉 '🤖 Google AI' बटण दाबा — Google AI Mode मध्ये अजून माहिती शोधा.";
   lastAnswer = fullText;
   document.getElementById("ansText").textContent = fullText;
   document.getElementById("ansBox").classList.add("show");
@@ -378,7 +378,7 @@ function show(t){
   document.getElementById("ansBox").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function section(n){var s=SECTIONS[n];return "📖 कलम "+n+" — "+s.title+"\n\n📜 कायद्यातील मजकूर:\n"+s.text+"\n\n💡 सोप्या भाषेत:\n"+s.simple+"\n\n🎯 कधी वापरायचे:\n"+s.use}
-function doSearch(){var q=document.getElementById("query").value.trim();if(!q){alert("कृपया प्रश्न लिहा.");return}ask(q)}
+var lastQuery="";function doSearch(){var q=document.getElementById("query").value.trim();if(!q){alert("कृपया प्रश्न लिहा.");return}lastQuery=q;ask(q)}
 function ask(q){
   document.getElementById("query").value = q;
   var qq = q.toLowerCase().trim();
@@ -446,7 +446,7 @@ function ask(q){
 
 function speakLast(){if(lastAnswer)speakText(lastAnswer)}
 function speakText(t){if(!("speechSynthesis"in window))return;try{window.speechSynthesis.cancel();var c=t.replace(/[📖📜💡🎯📌📚🔊⚠️━─]/g,"");var u=new SpeechSynthesisUtterance(c);u.lang="mr-IN";u.rate=.9;var v=window.speechSynthesis.getVoices();for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.indexOf("mr")>-1){u.voice=v[i];break}}window.speechSynthesis.speak(u)}catch(e){}}
-function openGem(){window.open("https://gemini.google.com","_blank")}
+function openGoogleAI(){var q=lastQuery||"";if(!q){alert("कृपया आधी प्रश्न शोधा.");return}window.open("https://www.google.com/search?udm=50&q="+encodeURIComponent(q),"_blank")}
 var rec=null,listening=false;
 function startVoice(){var b=document.getElementById("micBtn");if(!("webkitSpeechRecognition"in window)&&!("SpeechRecognition"in window)){alert("व्हॉईस चालत नाही.");return}if(listening){if(rec)rec.stop();listening=false;b.classList.remove("listening");return}var SR=window.SpeechRecognition||window.webkitSpeechRecognition;rec=new SR();rec.lang="mr-IN";rec.continuous=false;rec.interimResults=false;rec.onstart=function(){listening=true;b.classList.add("listening")};rec.onresult=function(e){var t=e.results[0][0].transcript;document.getElementById("query").value=t;ask(t)};rec.onerror=function(){listening=false;b.classList.remove("listening");alert("ऐकू आले नाही.")};rec.onend=function(){listening=false;b.classList.remove("listening")};try{rec.start()}catch(e){alert("व्हॉईस सुरू झाले नाही.")}}
 
